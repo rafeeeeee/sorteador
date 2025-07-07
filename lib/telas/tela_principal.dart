@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -11,48 +10,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //isso é uma lista de texto que contem o enderenço das
-
+  // isso é uma lista de texto, que contem o endereço das imagens
   List<String> images = [
     'assets/arthur.jpg',
-    'assets/john.jpg',
     'assets/dutch.jpg',
+    'assets/john.jpg',
   ];
 
   List<int> imagemSelecionada = [0, 0, 0];
 
-  void sortear() {
-
-    int i = 0;
-    while ( i < 5) {
-
-    setState(() {
-      imagemSelecionada[0] = Random().nextInt(images.length);
-      imagemSelecionada[1] = Random().nextInt(images.length);
-      imagemSelecionada[2] = Random().nextInt(images.length);
-      sleep(Duration(milliseconds: 500));
-    });
-
-
-     i++;
-    }
-
-
-    if (imagemSelecionada[0] == imagemSelecionada[1] &&
-        imagemSelecionada[1] == imagemSelecionada[2]) {
-
-          /// aqui vai somar 
-      showDialog(
-        context: context,
-        builder:
-            (context) => AlertDialog(
-              title: Text("Parabens"),
-              content: Text("voce ganhou"),
-            ),
-
-      );
-    }
-  }
+double somatorio = 100.0;
 
   @override
   Widget build(BuildContext context) {
@@ -60,28 +27,50 @@ class _HomePageState extends State<HomePage> {
     final larguraImagem = larguraTela / 3;
     return Scaffold(
       appBar: AppBar(
-        title: Text("rafael"),
-        backgroundColor: const Color.fromARGB(255, 117, 24, 224),
+        title: Text(
+          "Baleia",
+          style: TextStyle(fontSize: 30, backgroundColor: Colors.blue),
+        ),
+        backgroundColor: Colors.blue,
       ),
-      backgroundColor: const Color.fromARGB(0, 16, 28, 192),
-      floatingActionButton: FloatingActionButton(
+      backgroundColor: Colors.amber,
+      floatingActionButton: FloatingActionButton.large(
         onPressed: () {
-          sortear();
-        } 
-        
-        ,
+          setState(() {
+            imagemSelecionada[0] = Random().nextInt(images.length);
+            imagemSelecionada[1] = Random().nextInt(images.length);
+            imagemSelecionada[2] = Random().nextInt(images.length);
+          });
 
-        child: Icon(Icons.insert_emoticon_sharp),
-        backgroundColor: const Color.fromARGB(143, 22, 25, 197),
+          if (imagemSelecionada[0] == imagemSelecionada[1] &&
+              imagemSelecionada[1] == imagemSelecionada[2]) {
+
+                 somatorio = somatorio + 100.0;
+                
+            showDialog(
+              context: context,
+              builder:
+                  (context) => AlertDialog(
+                    title: Text("Parabens"),
+                    content: Text("voce ganhou"),
+                  ),
+            );
+          }
+          else { //quando as imagens foram diferentes irao entrar aqui
+      somatorio  = somatorio - 25.0;
+    }
+        },
+        child: Icon(Icons.catching_pokemon),
+        backgroundColor: Colors.cyan,
         foregroundColor: Colors.black,
       ),
-
-      
       body: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            //LINHA
+            mainAxisAlignment: MainAxisAlignment.center, //alinhamento
             children: [
+              //FILHOS
               Image.asset(
                 images[imagemSelecionada[0]],
                 width: larguraImagem,
@@ -101,12 +90,17 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+          Text(
+            "pontuação: " + somatorio.toString(), 
+          style: TextStyle(
+            fontSize: 30, // tamanho do texto
+            color: Colors.black, //cor do texto
+            fontWeight: FontWeight.w900, //largura do texto
+            backgroundColor: Colors.yellow //cor do fundo
+          )
+          )
         ],
       ),
-      Row(children: [
-        
-      ],)
-
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
